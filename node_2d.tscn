@@ -1,42 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2qu1cnh0ai0u"]
+[gd_scene load_steps=7 format=3 uid="uid://c2qu1cnh0ai0u"]
 
 [ext_resource type="Script" path="res://Node2D.gd" id="1_pmsyd"]
 [ext_resource type="Script" path="res://nave.gd" id="2_ck8ky"]
 [ext_resource type="Texture2D" uid="uid://c5374ess06kxu" path="res://icon.svg" id="3_8j2pk"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_rt1bx"]
-vertices = PackedVector2Array(1147, 13, 1149, 636, 11, 636, 2, 10)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, 0, 1, 646, 1159, 646, 1157, 4)])
-source_geometry_group_name = &"navigation_polygon_source_group"
-
 [sub_resource type="LabelSettings" id="LabelSettings_lu168"]
 font_size = 48
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r6ill"]
+size = Vector2(32, 32)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_rdq6g"]
+vertices = PackedVector2Array(1140, 636, 12, 636, 12, 12, 1140, 12)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 648, 1152, 648, 1152, 0)])
+source_geometry_mode = 2
+source_geometry_group_name = &"navigation_polygon_source_group"
+agent_radius = 12.0
 
 [node name="Root" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_pmsyd")
-
-[node name="Game" type="Node2D" parent="."]
-process_mode = 1
-
-[node name="nave" type="CharacterBody2D" parent="Game"]
-position = Vector2(173, 171)
-script = ExtResource("2_ck8ky")
-metadata/_edit_group_ = true
-
-[node name="Icon" type="Sprite2D" parent="Game/nave"]
-texture = ExtResource("3_8j2pk")
-region_enabled = true
-region_rect = Rect2(48, 48, 32, 32)
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Game/nave"]
-path_desired_distance = 2.0
-target_desired_distance = 2.0
-debug_enabled = true
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Game"]
-navigation_polygon = SubResource("NavigationPolygon_rt1bx")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -60,3 +44,35 @@ offset_top = 1.376
 offset_right = 42.024
 offset_bottom = 68.376
 label_settings = SubResource("LabelSettings_lu168")
+
+[node name="Game" type="Node2D" parent="."]
+process_mode = 1
+
+[node name="nave" type="CharacterBody2D" parent="Game"]
+position = Vector2(173, 171)
+script = ExtResource("2_ck8ky")
+metadata/_edit_group_ = true
+
+[node name="Icon" type="Sprite2D" parent="Game/nave"]
+texture = ExtResource("3_8j2pk")
+region_enabled = true
+region_rect = Rect2(48, 48, 32, 32)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Game/nave"]
+process_mode = 3
+avoidance_enabled = true
+radius = 64.0
+avoidance_layers = 255
+avoidance_mask = 255
+debug_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/nave"]
+shape = SubResource("RectangleShape2D_r6ill")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Game"]
+navigation_polygon = SubResource("NavigationPolygon_rdq6g")
+
+[node name="Pointer" type="Sprite2D" parent="."]
+texture = ExtResource("3_8j2pk")
+region_enabled = true
+region_rect = Rect2(4, 4, 12, 12)
