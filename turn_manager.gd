@@ -9,7 +9,7 @@ var turn_phase = phase.PLANNING
 signal turn_changed(phase)
 
 func _ready():
-	run_phase()
+	#run_phase()
 	timer.timeout.connect(_timeout)
 
 func run_phase():

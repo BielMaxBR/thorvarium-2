@@ -24,16 +24,21 @@ func _physics_process(delta):
 			)
 			nave.current_path = path
 			nave.current_index = 0
+			nave.navigation_agent.target_position = path[0]
 			create_line(nave.global_position, mouse, nave.name)
 			
 		if Input.is_action_just_pressed("right"):
 			var points : Array = nave.current_path
+			
 			if len(points) > 0:
 				for i in range(points.size()-1):
-					var dah_point = Geometry2D.get_closest_point_to_segment (mouse, points[i], points[i+1])
+					var dah_point = Geometry2D.get_closest_point_to_segment(mouse, points[i], points[i+1])
+					
 					if (dah_point.distance_to(mouse) <= 20):
 						$Pointer.position = dah_point
 						points.insert(i+1, dah_point)
+						
+						nave.trigger_point = dah_point
 						nave.current_path = points
 						nave.current_index = 0
 						break

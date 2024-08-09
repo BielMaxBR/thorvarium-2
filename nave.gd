@@ -5,6 +5,7 @@ var movement_target_position: Vector2 = Vector2(60.0,180.0)
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 
+var trigger_point: Vector2
 var current_index: int = 0
 var current_path: PackedVector2Array
 
@@ -21,3 +22,8 @@ func _physics_process(delta):
 	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
 	navigation_agent.velocity = velocity
 	move_and_slide()
+
+
+func _on_navigation_agent_2d_waypoint_reached(details):
+	if details.position.round() == trigger_point.round():
+		print("trigou!")

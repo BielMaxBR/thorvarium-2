@@ -79,3 +79,5 @@ navigation_polygon = SubResource("NavigationPolygon_rdq6g")
 texture = ExtResource("3_8j2pk")
 region_enabled = true
 region_rect = Rect2(4, 4, 12, 12)
+
+[connection signal="waypoint_reached" from="Game/nave/NavigationAgent2D" to="Game/nave" method="_on_navigation_agent_2d_waypoint_reached"]
