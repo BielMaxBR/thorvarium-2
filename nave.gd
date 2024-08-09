@@ -5,8 +5,14 @@ var movement_target_position: Vector2 = Vector2(60.0,180.0)
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 
+var current_index: int = 0
+var current_path: PackedVector2Array
+
 func _physics_process(delta):
 	if navigation_agent.is_navigation_finished():
+		if current_index+1 < len(current_path):
+			current_index += 1
+			navigation_agent.target_position = current_path[current_index]
 		return
 
 	var current_agent_position: Vector2 = global_position

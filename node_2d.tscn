@@ -60,7 +60,8 @@ region_rect = Rect2(48, 48, 32, 32)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="Game/nave"]
 process_mode = 3
-avoidance_enabled = true
+path_desired_distance = 5.0
+target_desired_distance = 5.0
 radius = 64.0
 avoidance_layers = 255
 avoidance_mask = 255
@@ -71,6 +72,8 @@ shape = SubResource("RectangleShape2D_r6ill")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Game"]
 navigation_polygon = SubResource("NavigationPolygon_rdq6g")
+
+[node name="Lines" type="Node2D" parent="."]
 
 [node name="Pointer" type="Sprite2D" parent="."]
 texture = ExtResource("3_8j2pk")
