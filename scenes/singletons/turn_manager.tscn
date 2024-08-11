@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://clr3vt3bxkimu"]
+
+[ext_resource type="Script" path="res://scripts/turn_manager.gd" id="1_41qgi"]
+
+[node name="TurnManager" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_41qgi")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0

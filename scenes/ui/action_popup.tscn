@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6ep3ypmw4rrx"]
+
+[ext_resource type="Script" path="res://addons/advanced_radial_menu/radial_menu_class.gd" id="1_k2o4x"]
+[ext_resource type="Texture2D" uid="uid://breqhghsqf5tn" path="res://assets/x.png" id="2_4tpwd"]
+
+[node name="ActionPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+focus_mode = 1
+script = ExtResource("1_k2o4x")
+select_action_name = "click"
+auto_sizing = false
+color = Color(0, 0, 0, 0.478431)
+circle_radius = 64
+arc_inner_radius = 16.0
+arc_detail = 24
+arc_line_width = 2
+arc_antialiased = false
+line_width = 4
+line_antialised = false
+children_size = 32
+children_auto_sizing_factor = 0.7
+children_rotate = true
+hover_color = Color(1, 1, 1, 0.419608)
+stroke_type = 0
+stroke_width = 1
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 18.641
+offset_top = -36.0
+offset_right = 50.641
+offset_bottom = -4.0
+rotation = 6.28319
+pivot_offset = Vector2(16, 16)
+texture = ExtResource("2_4tpwd")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -50.641
+offset_top = -36.0
+offset_right = -18.641
+offset_bottom = -4.0
+rotation = 6.28319
+pivot_offset = Vector2(16, 16)
+texture = ExtResource("2_4tpwd")
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 24.0
+offset_right = 16.0
+offset_bottom = 56.0
+rotation = 6.28319
+pivot_offset = Vector2(16, 16)
+texture = ExtResource("2_4tpwd")
