@@ -3,4 +3,5 @@
 [ext_resource type="Script" path="res://scripts/ActionManager.gd" id="1_x84es"]
 
 [node name="ActionManager" type="Node"]
+process_mode = 3
 script = ExtResource("1_x84es")

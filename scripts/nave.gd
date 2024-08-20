@@ -12,19 +12,8 @@ var current_path: PackedVector2Array
 @export var mouse_aim: MouseAimBehavior
 
 func _physics_process(delta):
-	if navigation_agent.is_navigation_finished():
-		if current_index+1 < len(current_path):
-			current_index += 1
-			navigation_agent.target_position = current_path[current_index]
-		return
-
-	var current_agent_position: Vector2 = global_position
-	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
-
-	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
-	navigation_agent.velocity = velocity
-	move_and_slide()
-
+	manage_line()
+	move_using_navigation()
 
 func _on_navigation_agent_2d_waypoint_reached(details):
 	if details.position.round() == trigger_point.round():
@@ -32,7 +21,7 @@ func _on_navigation_agent_2d_waypoint_reached(details):
 
 func move_to_position(action: Action):
 	if Input.is_action_just_pressed("click"):
-		print(action.action_name, get_global_mouse_position())
+		create_path(global_position, get_global_mouse_position())
 		action.finish_action()
 
 func _on_selector_input_event(viewport: Node, _event: InputEvent, shape_idx: int) -> void:
@@ -47,4 +36,68 @@ func _on_selector_input_event(viewport: Node, _event: InputEvent, shape_idx: int
 			self
 		)
 		print("action declarada")
+		erase_all_lines()
 		ActionManager.set_action(action)
+
+func move_using_navigation():
+	if TurnManager.turn_phase == TurnManager.phase.PLANNING: return
+	if navigation_agent.is_navigation_finished():
+		if current_index+1 < len(current_path):
+			current_index += 1
+			navigation_agent.target_position = current_path[current_index]
+		return
+
+	var current_agent_position: Vector2 = global_position
+	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
+
+	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
+	navigation_agent.velocity = velocity
+	move_and_slide()
+
+func manage_line():
+	if ActionManager.current_action != null: return
+	
+	var points = current_path
+	var mouse = get_global_mouse_position()
+
+	if len(points) > 0:
+		for i in range(points.size()-1):
+			var dah_point = Geometry2D.get_closest_point_to_segment(mouse, points[i], points[i+1])
+			
+			if dah_point.distance_to(mouse) <= 8: # ajustável
+				if trigger_point:
+					if trigger_point.distance_to(mouse) <= 12:  # ajustável
+						break
+				else:
+					#$Pointer.position = dah_point
+					points.insert(i+1, dah_point)
+					print("ponto feito")
+					trigger_point = dah_point
+					current_path = points
+					current_index = 0
+					#if not Input.is_action_just_pressed("click"): return 
+					#spawn_action_popup(trigger_point)
+				break
+
+func create_path(current_pos: Vector2, target_pos: Vector2):
+	var default_map_rid: RID = get_world_2d().get_navigation_map()
+	var path: PackedVector2Array = NavigationServer2D.map_get_path(
+		default_map_rid,
+		current_pos,
+		target_pos,
+		false
+	)
+	current_path = path
+	current_index = 0
+	navigation_agent.target_position = path[0]
+	create_line(current_pos, target_pos)
+
+func create_line(current_pos: Vector2, target_pos: Vector2):
+	var new_line := Line2D.new()
+	new_line.points = PackedVector2Array([current_pos, target_pos])
+	$CanvasLayer.add_child(new_line)
+	pass
+
+func erase_all_lines():
+	var deleter: Callable = func(node): node.queue_free()
+	$CanvasLayer.get_children().any(deleter)

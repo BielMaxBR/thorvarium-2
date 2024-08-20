@@ -16,10 +16,13 @@ radius = 23.0217
 size = Vector2(32, 32)
 
 [node name="nave" type="CharacterBody2D"]
-position = Vector2(208, 86)
+position = Vector2(231, 81)
 script = ExtResource("1_kfils")
 mouse_aim = SubResource("Resource_1jvc1")
 metadata/_edit_group_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="Icon" type="Sprite2D" parent="."]
 texture = ExtResource("2_futiq")
@@ -36,16 +39,12 @@ avoidance_mask = 255
 debug_enabled = true
 
 [node name="Selector" type="Area2D" parent="."]
-process_mode = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Selector"]
 shape = SubResource("CircleShape2D_mclrp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_r6ill")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
 
 [connection signal="waypoint_reached" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_waypoint_reached"]
 [connection signal="input_event" from="Selector" to="." method="_on_selector_input_event"]

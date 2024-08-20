@@ -16,7 +16,6 @@ source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 12.0
 
 [node name="Root" type="Node2D"]
-process_mode = 3
 script = ExtResource("1_hrdw3")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -28,6 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
@@ -43,7 +43,6 @@ offset_bottom = 68.376
 label_settings = SubResource("LabelSettings_lu168")
 
 [node name="Game" type="Node2D" parent="."]
-process_mode = 1
 
 [node name="nave" parent="Game" instance=ExtResource("2_jvr7e")]
 position = Vector2(361, 244)
