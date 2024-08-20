@@ -1,14 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2qu1cnh0ai0u"]
+[gd_scene load_steps=6 format=3 uid="uid://c2qu1cnh0ai0u"]
 
 [ext_resource type="Script" path="res://scripts/Node2D.gd" id="1_hrdw3"]
-[ext_resource type="Script" path="res://scripts/nave.gd" id="2_eaiam"]
+[ext_resource type="PackedScene" uid="uid://dqraap8b4d1lj" path="res://scenes/nave.tscn" id="2_jvr7e"]
 [ext_resource type="Texture2D" uid="uid://c5374ess06kxu" path="res://assets/icon.svg" id="3_4io42"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lu168"]
 font_size = 48
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r6ill"]
-size = Vector2(32, 32)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_rdq6g"]
 vertices = PackedVector2Array(1140, 636, 12, 636, 12, 12, 1140, 12)
@@ -48,27 +45,8 @@ label_settings = SubResource("LabelSettings_lu168")
 [node name="Game" type="Node2D" parent="."]
 process_mode = 1
 
-[node name="nave" type="CharacterBody2D" parent="Game"]
-position = Vector2(173, 171)
-script = ExtResource("2_eaiam")
-metadata/_edit_group_ = true
-
-[node name="Icon" type="Sprite2D" parent="Game/nave"]
-texture = ExtResource("3_4io42")
-region_enabled = true
-region_rect = Rect2(48, 48, 32, 32)
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Game/nave"]
-process_mode = 3
-path_desired_distance = 5.0
-target_desired_distance = 5.0
-radius = 64.0
-avoidance_layers = 255
-avoidance_mask = 255
-debug_enabled = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/nave"]
-shape = SubResource("RectangleShape2D_r6ill")
+[node name="nave" parent="Game" instance=ExtResource("2_jvr7e")]
+position = Vector2(361, 244)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Game"]
 navigation_polygon = SubResource("NavigationPolygon_rdq6g")
@@ -79,5 +57,3 @@ navigation_polygon = SubResource("NavigationPolygon_rdq6g")
 texture = ExtResource("3_4io42")
 region_enabled = true
 region_rect = Rect2(4, 4, 12, 12)
-
-[connection signal="waypoint_reached" from="Game/nave/NavigationAgent2D" to="Game/nave" method="_on_navigation_agent_2d_waypoint_reached"]

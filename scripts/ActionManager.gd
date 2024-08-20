@@ -11,10 +11,6 @@ func set_action(action: Action):
 	
 	add_child(current_action)  
 
-func execute_action():
-	if current_action != null:
-		current_action.execute()
-
 func _on_action_finished():
 	if current_action != null:
 		current_action.queue_free()

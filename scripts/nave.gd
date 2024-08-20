@@ -9,6 +9,8 @@ var trigger_point: Vector2
 var current_index: int = 0
 var current_path: PackedVector2Array
 
+@export var mouse_aim: MouseAimBehavior
+
 func _physics_process(delta):
 	if navigation_agent.is_navigation_finished():
 		if current_index+1 < len(current_path):
@@ -27,3 +29,22 @@ func _physics_process(delta):
 func _on_navigation_agent_2d_waypoint_reached(details):
 	if details.position.round() == trigger_point.round():
 		print("trigou!")
+
+func move_to_position(action: Action):
+	if Input.is_action_just_pressed("click"):
+		print(action.action_name, get_global_mouse_position())
+		action.finish_action()
+
+func _on_selector_input_event(viewport: Node, _event: InputEvent, shape_idx: int) -> void:
+	if _event is not InputEventMouseButton: return
+	var event: InputEventMouseButton = _event
+	if Input.is_action_just_released("click"):
+		var action = Action.new(
+			Callable(self, "move_to_position"),
+			"Mover Player",
+			"Move o player para a posição clicada.",
+			mouse_aim,
+			self
+		)
+		print("action declarada")
+		ActionManager.set_action(action)

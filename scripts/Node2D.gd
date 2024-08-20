@@ -15,45 +15,46 @@ func _turn_changed(turn: int):
 func _physics_process(delta):
 	if  TurnManager.turn_phase == TurnManager.phase.PLANNING:
 		var mouse = get_global_mouse_position()
-		
-		if Input.is_action_just_pressed("click") and selected != null:
-			
-			var default_map_rid: RID = get_world_2d().get_navigation_map()
-			var path: PackedVector2Array = NavigationServer2D.map_get_path(
-				default_map_rid,
-				selected.global_position,
-				mouse,
-				true
-			)
-			selected.current_path = path
-			selected.current_index = 0
-			selected.navigation_agent.target_position = path[0]
-			create_line(selected.global_position, mouse, selected.name)
-			selected = null
-			
-		if Input.is_action_just_pressed("right"):
-			for _nave in $Game.get_children():
-				if not "current_path" in _nave:
-					continue
-				var points : Array = _nave.current_path
-				
-				if len(points) > 0:
-					for i in range(points.size()-1):
-						var dah_point = Geometry2D.get_closest_point_to_segment(mouse, points[i], points[i+1])
-						
-						if dah_point.distance_to(mouse) <= 8: # ajustável
-							if _nave.trigger_point:
-								if _nave.trigger_point.distance_to(mouse) <= 12:  # ajustável
-									break
-							else:
-								$Pointer.position = dah_point
-								points.insert(i+1, dah_point)
-								
-								_nave.trigger_point = dah_point
-								_nave.current_path = points
-								_nave.current_index = 0
-								spawn_action_popup(_nave.trigger_point, "%s-line" % _nave.name)
-							break
+		#
+		#if Input.is_action_just_pressed("click") and selected != null:
+			#
+			#var default_map_rid: RID = get_world_2d().get_navigation_map()
+			#var path: PackedVector2Array = NavigationServer2D.map_get_path(
+				#default_map_rid,
+				#selected.global_position,
+				#mouse,
+				#true
+			#)
+			#selected.current_path = path
+			#selected.current_index = 0
+			#selected.navigation_agent.target_position = path[0]
+			#create_line(selected.global_position, mouse, selected.name)
+			#selected = null
+			#
+		#if Input.is_action_just_pressed("right"):
+			#for _nave in $Game.get_children():
+				#if not "current_path" in _nave:
+					#continue
+				#var points : Array = _nave.current_path
+				#
+				#if len(points) > 0:
+					#for i in range(points.size()-1):
+						#var dah_point = Geometry2D.get_closest_point_to_segment(mouse, points[i], points[i+1])
+						#
+						#if dah_point.distance_to(mouse) <= 8: # ajustável
+							#if _nave.trigger_point:
+								#if _nave.trigger_point.distance_to(mouse) <= 12:  # ajustável
+									#break
+							#else:
+								#$Pointer.position = dah_point
+								#points.insert(i+1, dah_point)
+								#
+								#_nave.trigger_point = dah_point
+								#_nave.current_path = points
+								#_nave.current_index = 0
+								#spawn_action_popup(_nave.trigger_point, "%s-line" % _nave.name)
+							#break
+		#
 		get_tree().paused = true
 		
 		$CanvasLayer/Control/Label.text = "planejamento"
