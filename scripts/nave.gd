@@ -62,22 +62,35 @@ func manage_line():
 
 	if len(points) > 0:
 		for i in range(points.size()-1):
-			var dah_point = Geometry2D.get_closest_point_to_segment(mouse, points[i], points[i+1])
+			var inline_point = Geometry2D.get_closest_point_to_segment(mouse, points[i], points[i+1])
 			
-			if dah_point.distance_to(mouse) <= 8: # ajustável
-				if trigger_point:
+			if inline_point.distance_to(mouse) <= 8: # ajustável
+				if not trigger_point in points:
+					set_pointer(inline_point)
+					#spawn_action_popup(trigger_point)
+				else:
 					if trigger_point.distance_to(mouse) <= 12:  # ajustável
 						break
-				else:
-					#$Pointer.position = dah_point
-					points.insert(i+1, dah_point)
+					
+				if Input.is_action_just_pressed("click"):
+					set_pointer(inline_point)
+					points.insert(i+1, inline_point)
 					print("ponto feito")
-					trigger_point = dah_point
+					
+					trigger_point = inline_point
 					current_path = points
 					current_index = 0
-					#if not Input.is_action_just_pressed("click"): return 
-					#spawn_action_popup(trigger_point)
+				
 				break
+
+func set_pointer(point: Vector2):
+	var pointer : Sprite2D
+	if not $CanvasLayer.has_node("Pointer"):
+		pointer = load("res://scenes/ui/pointer.tscn").instantiate()
+		$CanvasLayer.add_child(pointer)
+	else:
+		pointer = $CanvasLayer.get_node("Pointer")
+	pointer.global_position = point
 
 func create_path(current_pos: Vector2, target_pos: Vector2):
 	var default_map_rid: RID = get_world_2d().get_navigation_map()
